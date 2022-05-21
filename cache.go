@@ -2,11 +2,16 @@ package simple_cache
 
 import (
 	"github.com/diSpdremk/simple-map"
+	"reflect"
 )
+
+type CacheValueWithSetter interface {
+	Name() string
+	Set(v CacheValue)
+}
 
 type CacheValue interface {
 	Name() string
-	Set(v CacheValue)
 }
 
 type SCache struct {
@@ -49,7 +54,14 @@ func (s *SCache) Get(k any, v CacheValue) bool {
 			if !ok {
 				return false
 			}
-			v.Set(findV)
+			if vS, ok := v.(CacheValueWithSetter); ok {
+				if vS == nil {
+					panic("v cannot be nil")
+				}
+				vS.Set(findV)
+			} else {
+				reflect.ValueOf(v).Elem().Set(reflect.ValueOf(findV).Elem())
+			}
 			return true
 		}
 	}
