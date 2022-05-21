@@ -1,0 +1,4 @@
+github.com/diSpdremk/simple-map v0.0.1 h1:/e0KTUk/RGQ/hdw0sVSPG3BPh74mnLJTPODFXfYUCuc=
+github.com/diSpdremk/simple-map v0.0.1/go.mod h1:smL0B9WJ0HOsIdxs7IthBxlBM3l+DzNPxfcZCk4DFiQ=
+github.com/zhenjl/cityhash v0.0.0-20131128155616-cdd6a94144ab h1:BWHvAOZz0pBILkGl/ebPQKZDrqbaWj/iN9RE8AvaTvg=
+github.com/zhenjl/cityhash v0.0.0-20131128155616-cdd6a94144ab/go.mod h1:P6L88wrqK99Njntah9SB7AyzFpUXsXYq06LkjixxQmY=
