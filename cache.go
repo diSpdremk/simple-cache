@@ -2,13 +2,7 @@ package simple_cache
 
 import (
 	"github.com/diSpdremk/simple-map"
-	"reflect"
 )
-
-type CacheValueWithSetter interface {
-	Name() string
-	Set(v CacheValue)
-}
 
 type CacheValue interface {
 	Name() string
@@ -47,22 +41,27 @@ func (s *SCache) Put(k any, v CacheValue) {
 	panic("type not register")
 }
 
-func (s *SCache) Get(k any, v CacheValue) bool {
+func (s *SCache) Get(k any, t CacheValue) (CacheValue, bool) {
 	for _, m := range s.namedMaps {
-		if m.name == v.Name() {
+		if m.name == t.Name() {
 			findV, ok := m.sMap.Get(m.getKey(k))
 			if !ok {
-				return false
+				return nil, false
 			}
-			if vS, ok := v.(CacheValueWithSetter); ok {
-				if vS == nil {
-					panic("v cannot be nil")
-				}
-				vS.Set(findV)
-			} else {
-				reflect.ValueOf(v).Elem().Set(reflect.ValueOf(findV).Elem())
+			return findV, true
+		}
+	}
+	panic("type not register")
+}
+
+func (s *SCache) GetAllValues(t CacheValue) []CacheValue {
+	for _, m := range s.namedMaps {
+		if m.name == t.Name() {
+			values := m.sMap.Values()
+			if len(values) == 0 {
+				return nil
 			}
-			return true
+			return values
 		}
 	}
 	panic("type not register")
