@@ -66,3 +66,13 @@ func (s *SCache) GetAllValues(t CacheValue) []CacheValue {
 	}
 	panic("type not register")
 }
+
+func (s *SCache) Delete(k any, t CacheValue) {
+	for _, m := range s.namedMaps {
+		if m.name == t.Name() {
+			rK := m.getKey(k)
+			m.sMap.Delete(rK)
+			return
+		}
+	}
+}
